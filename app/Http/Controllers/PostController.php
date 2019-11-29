@@ -6,7 +6,8 @@ use Illuminate\Http\Request;
 use App\Post;
 use Illuminate\Support\Facades\Session;
 use Auth;
-
+use App\Category;
+use App\Tag;
 
 class PostController extends Controller
 {
@@ -34,7 +35,15 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('posts.create');
+        $categories = Category::all();
+        $tags = Tag::all();
+
+        if($categories->count() == 0){
+            Session::flash('info','You must have some categories before creating post');
+            return redirect()->route('category.create');
+        }
+        return view('posts.create')->with('categories',$categories)
+                                   ->with('tags',$tags);
     }
 
     /**
@@ -48,7 +57,8 @@ class PostController extends Controller
         $this->validate($request,[
             'title' => 'required',
             'description' => 'required',
-            'featured' => 'required|image'
+            'featured' => 'required|image',
+            'category' => 'required'
         ]);
 
         $featured = $request->featured;
@@ -59,10 +69,14 @@ class PostController extends Controller
         $post = Post::create([
         'title' => $request->title,
         'description' => $request->description,
-        'featured_img' => asset('uploads/posts/'.$featured_new_name)
+        'featured_img' => asset('uploads/posts/'.$featured_new_name),
+        'category_id' => $request->category,
+        'user_id' => Auth::id()
         ]);
 
         $post->save();
+
+        $post->tags()->attach($request->tags);
 
         Session::flash('success','Post Created Successfully');
 
@@ -77,8 +91,7 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        return view('posts.show')->with('post',$post)
-                                ->with('user',Auth::user());
+        return view('posts.show')->with('post',$post);
     }
 
     /**
@@ -89,7 +102,9 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        return view('posts.edit')->with('post',$post);
+        return view('posts.edit')->with('post',$post)
+                                 ->with('categories',Category::all())
+                                 ->with('tags',Tag::all());
     }
 
     /**
@@ -105,7 +120,8 @@ class PostController extends Controller
         $this->validate($request,[
             'title' => 'required',
             'description' => 'required',
-            'featured' => 'nullable|image'
+            'featured' => 'nullable|image',
+            'category' => 'required'
         ]);
 
         if($request->hasFile('featured')){
@@ -115,11 +131,13 @@ class PostController extends Controller
             $post->featured_img = asset('uploads/posts/'.$featured_new_name);
         }
 
-        // $post->title = $request->title;
-        // $post->description = $request->description;
-        // $post->save();
+        $post->title = $request->title;
+        $post->description = $request->description;
+        $post->category_id = $request->category;
+        $post->save();
 
-        $post->fill($request->input())->save();
+        // $post->fill($request->input())->save();
+        $post->tags()->attach($request->tags);
 
         Session::flash('success','Post Updated Successfully');
 

@@ -19,7 +19,7 @@
                         {{ $post->title}}
                     </td>
                     <td>
-                            <a class="btn btn-primary" href="{{ route('posts.show',['id' => $post->id])}}"><i class="fas fa-eye"></i></a>
+                        <a class="btn btn-primary" href="{{ route('posts.show',['id' => $post->id])}}"><i class="fas fa-eye"></i></a>
                     </td>
                     @if(Auth::check())
                     <td>
@@ -45,3 +45,4 @@
         </div>
     </div>
 @endsection
+

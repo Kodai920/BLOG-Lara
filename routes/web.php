@@ -11,9 +11,12 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/','FrontendController@index');
+
+Route::get('/category-single/{category}',[
+    'uses' =>'FrontendController@category',
+    'as' => 'category.single'
+]);
 
 Auth::routes();
 
@@ -28,8 +31,22 @@ Route::get('restore-post/{id}','PostController@restore')->name('posts.restore');
 Route::get('kill-post/{id}','PostController@kill')->name('posts.kill');
 
 Route::resource('category','CategoryController');
+Route::resource('tags','TagController');
 
 Route::group(['middleware' => 'auth'],function(){
+
+    Route::get('/user/profile',[
+        'uses' => 'ProfilesController@index',
+        'as' => 'user.profile'
+    ]);
+
+    Route::post('/update-profile',[
+        'uses' => 'ProfilesController@update',
+        'as' => 'profile.update',
+    ]);
+});
+
+Route::group(['middleware'=>'auth','admin'],function(){
 
     Route::get('/settings',[
         'uses' => 'SettingsController@index',

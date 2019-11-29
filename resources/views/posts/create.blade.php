@@ -21,16 +21,33 @@
                 <label for="title">Title</label>
                 <input type="text" name="title" class="form-control">
             </div>
+
             <div class="form-group">
-                {{-- <label for="description">Description</label>
-                <textarea name="description" id="" cols="5" rows="5" class="form-control"></textarea> --}}
                 <input id="description" type="hidden" name="description" class="form-control">
                 <trix-editor input="description"></trix-editor>
             </div>
+
             <div class="form-group">
                 <label for="description">Featured image</label>
                 <input type="file" name="featured" class="form-control-file">
             </div>
+
+            <div class="form-group">
+                <label for="category">Select a category</label>
+                <select name="category" id="category" class="form-control">
+                    @foreach ($categories as $category)
+                        <option value=" {{$category->id }} "> {{$category->name }} </option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="tag">Select tags</label>
+                @foreach($tags as $tag)
+                   <label> <input type="checkbox" name="tags[]" value="{{$tag->id}}"> {{$tag->name}} </label>
+                @endforeach
+            </div>
+
             <div class="form-group">
                 <button class="btn btn-success btn-block" type="submit">Store Post</button>
             </div>

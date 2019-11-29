@@ -34,6 +34,9 @@
                     <div class="col-md-3">
                         <ul class="list-group">
                             <li class="list-group-item">
+                                <a href="{{route('home')}}">Home</a>
+                            </li>
+                            <li class="list-group-item">
                                 <a href="{{route('posts.create')}}">New Posts</a>
                             </li>
                             <li class="list-group-item">
@@ -49,8 +52,21 @@
                                 <a href="{{route('category.create')}}">New Category</a>
                             </li>
                             <li class="list-group-item">
-                                <a href="{{route('settings.index')}}">Settings</a>
+                                <a href="{{route('tags.index')}}">Tags</a>
                             </li>
+                            <li class="list-group-item">
+                                <a href="{{route('tags.create')}}">New Tag</a>
+                            </li>
+                            @if(Auth::check())
+                            <li class="list-group-item">
+                                <a href="{{route('user.profile')}}">My Profile</a>
+                            </li>
+                            @if(Auth::user()->admin)
+                                <li class="list-group-item">
+                                    <a href="{{route('settings.index')}}">Settings</a>
+                                </li>
+                            @endif
+                            @endif
                         </ul>
                     </div>
                 <div class="col-md-9">
@@ -64,11 +80,14 @@
          @if(Session::has('success'))
          toastr.success(" {{Session::get('success')}} ")
          @endif
+         @if(Session::has('info'))
+         toastr.info(" {{Session::get('info')}} ")
+         @endif
      </script>
 
       <script src="/vendor/unisharp/laravel-ckeditor/ckeditor.js"></script>
       <script>
-          CKEDITOR.replace( 'article-ckeditor' );
+          CKEDITOR.replace('article-ckeditor');
       </script>
 
       <!-- Include Editor JS files. -->
