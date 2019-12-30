@@ -21,25 +21,25 @@
         <main class="main">
 
             <div class="row">
-                        <div class="case-item-wrap">
-                            @if(count($category->posts) > 0)
-                            @foreach($category->posts as $post)
-                            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-                                <div class="case-item">
-                                    <div class="case-item__thumb">
-                                        <img src="{{ $post->featured_img }}" alt=" {{$post->title}}" style="width: 100%; height:200px;">
-                                    </div>
-                                    <h6 class="case-item__title"><a href="#"> {{$post->title}} </a></h6>
-                                </div>
+                <div class="case-item-wrap">
+                    @if(count($category->posts) > 0)
+                    @foreach($category->posts as $post)
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                        <div class="case-item">
+                            <div class="case-item__thumb">
+                                <img src="{{ $post->featured_img }}" alt=" {{$post->title}}" style="width: 100%; height:200px;">
                             </div>
-                            @endforeach
-                            @else
-                              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                  <h3 class="text-center">No posts found for this category!</h3>
-
-                              </div>
-                            @endif
+                            <h6 class="case-item__title"><a href="{{route('post.single',['id'=>$post->id]) }}"> {{$post->title}} </a></h6>
+                        </div>
                     </div>
+                    @endforeach
+                    @else
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <h3 class="text-center">No posts found for this category!</h3>
+
+                        </div>
+                    @endif
+            </div>
             </div>
 
             <!-- End Post Details -->
@@ -60,15 +60,9 @@
                         </div>
 
                         <div class="tags-wrap">
-                            <a href="#" class="w-tags-item">SEO</a>
-                            <a href="#" class="w-tags-item">Advertising</a>
-                            <a href="#" class="w-tags-item">Business</a>
-                            <a href="#" class="w-tags-item">Optimization</a>
-                            <a href="#" class="w-tags-item">Digital Marketing</a>
-                            <a href="#" class="w-tags-item">Social</a>
-                            <a href="#" class="w-tags-item">Keyword</a>
-                            <a href="#" class="w-tags-item">Strategy</a>
-                            <a href="#" class="w-tags-item">Audience</a>
+                            @foreach($tags as $tag)
+                            <a href="{{route('tag.single',['id'=>$tag->id]) }}" class="w-tags-item">{{$tag->name}}</a>
+                            @endforeach
                         </div>
                     </div>
                 </aside>

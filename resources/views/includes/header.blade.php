@@ -3,7 +3,7 @@
             <div class="header-content-wrapper">
                 <div class="logo">
                     <div class="logo-text">
-                        <div class="logo-title">LARAVEL'S BLOG</div>
+                        <div class="logo-title"><a href="/">LARAVEL'S BLOG</a></div>
                     </div>
                 </div>
 
@@ -18,16 +18,18 @@
                         </span>
                     </a>
                     <ul class="primary-menu-menu" style="overflow: hidden;">
+                        @if(isset($category))
                         @foreach($categories as $category)
-                        <li class="">
+                        <li>
                             <a href=" {{route('category.single',['id'=>$category->id]) }} "> {{$category->name}} </a>
                         </li>
                         @endforeach
+                        @endif
                     </ul>
                 </nav>
                 <ul class="nav-add">
                     <li class="search search_main" style="color: black; margin-top: 5px;">
-                        <a href="#" class="js-open-search">
+                        <a href=" {{route('search.results')}} " class="js-open-search">
                             <i class="seoicon-loupe"></i>
                         </a>
                     </li>

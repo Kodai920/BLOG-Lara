@@ -19,11 +19,11 @@
                         {{ $post->title}}
                     </td>
                     <td>
-                        <a class="btn btn-primary" href="{{ route('posts.show',['id' => $post->id])}}"><i class="fas fa-eye"></i></a>
+                        <a class="btn btn-primary" href="{{route('posts.show',['id' => $post->id])}}"><i class="fas fa-eye"></i></a>
                     </td>
                     @if(Auth::check())
                     <td>
-                        <a href=" {{route('posts.edit',['id' => $post->id]) }} " class="btn btn-info"><i class="fas fa-edit"></i></a>
+                        <a href=" {{route('posts.create',['id' => $post->id]) }} " class="btn btn-info"><i class="fas fa-edit"></i></a>
                     </td>
                     <td>
                         <form action="{{route('posts.destroy',['id'=>$post->id]) }} " method="post">

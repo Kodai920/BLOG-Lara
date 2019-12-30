@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Tag;
 use App\Http\Requests\CreateTagRequest;
 use Illuminate\Support\Facades\Session;
+use App\Post;
+
 
 class TagController extends Controller
 {

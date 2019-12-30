@@ -2,7 +2,7 @@
 @section('content')
 
 <div class="card">
-    <div class="card-header">Create Post</div>
+    <div class="card-header">{{isset($posts) ?'Create Post' : 'Edit Post' }} </div>
 
     <div class="card-body">
 
@@ -15,16 +15,16 @@
         </ul>
         @endif
 
-        <form action=" {{ route('posts.store')}}" method="post" enctype="multipart/form-data">
+        <form action=" {{ isset($post) ? route('posts.store') : route('posts.update',['id' => $post->id])}}" method="post" enctype="multipart/form-data">
             @csrf
             <div class="form-group">
-                <label for="title">Title</label>
-                <input type="text" name="title" class="form-control">
+                <label for="name">Title</label>
+                <input type="text" name="title" class="form-control" value=" {{isset($posts) ? '' : $post->name}} ">
             </div>
 
             <div class="form-group">
                 <input id="description" type="hidden" name="description" class="form-control">
-                <trix-editor input="description"></trix-editor>
+                <trix-editor input="description">{{isset($posts) ? '' : $post->description}} </trix-editor>
             </div>
 
             <div class="form-group">
@@ -49,7 +49,7 @@
             </div>
 
             <div class="form-group">
-                <button class="btn btn-success btn-block" type="submit">Store Post</button>
+                <button class="btn btn-success btn-block" type="submit">{{isset($posts) ?'Store Post' : 'Update Post' }} </button>
             </div>
         </form>
     </div>

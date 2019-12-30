@@ -68,6 +68,7 @@ class PostController extends Controller
         //Mass Assignment
         $post = Post::create([
         'title' => $request->title,
+        'slug' => str_slug($request->title),
         'description' => $request->description,
         'featured_img' => asset('uploads/posts/'.$featured_new_name),
         'category_id' => $request->category,
@@ -102,7 +103,7 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        return view('posts.edit')->with('post',$post)
+        return view('posts.create')->with('post',$post)
                                  ->with('categories',Category::all())
                                  ->with('tags',Tag::all());
     }
@@ -132,12 +133,13 @@ class PostController extends Controller
         }
 
         $post->title = $request->title;
+        $post->slug = str_slug($request->title);
         $post->description = $request->description;
         $post->category_id = $request->category;
         $post->save();
 
         // $post->fill($request->input())->save();
-        $post->tags()->attach($request->tags);
+        // $post->tags()->attach($request->tags);
 
         Session::flash('success','Post Updated Successfully');
 

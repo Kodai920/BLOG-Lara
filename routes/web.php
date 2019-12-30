@@ -18,6 +18,26 @@ Route::get('/category-single/{category}',[
     'as' => 'category.single'
 ]);
 
+Route::get('/results',[
+    'uses' => 'FrontendController@search',
+    'as' => 'search.results'
+]);
+
+Route::post('/subscribe',[
+    'uses' => 'FrontendController@subscribe',
+    'as' => 'subscribe'
+]);
+
+Route::get('/post/{slug}',[
+    'uses' => 'FrontendController@single_post',
+    'as' => 'post.single'
+]);
+
+Route::get('/tag-single/{tag}',[
+    'uses' => 'FrontendController@tag',
+    'as' => 'tag.single'
+]);
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
@@ -31,6 +51,7 @@ Route::get('restore-post/{id}','PostController@restore')->name('posts.restore');
 Route::get('kill-post/{id}','PostController@kill')->name('posts.kill');
 
 Route::resource('category','CategoryController');
+
 Route::resource('tags','TagController');
 
 Route::group(['middleware' => 'auth'],function(){
